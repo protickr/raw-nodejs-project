@@ -1,0 +1,25 @@
+{
+  "name": "api-monitoring-nodejs",
+  "version": "1.0.0",
+  "description": "API status monitoring application built with raw nodejs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/protickr/raw-nodejs-project.git"
+  },
+  "keywords": [
+    "api",
+    "monitoring",
+    "raw",
+    "nodejs"
+  ],
+  "author": "Protick Roy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/protickr/raw-nodejs-project/issues"
+  },
+  "homepage": "https://github.com/protickr/raw-nodejs-project#readme"
+}
