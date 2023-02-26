@@ -2,12 +2,14 @@ const environments = {};
 
 environments.staging = {
     port: 3000,
-    envName: 'staging'
+    envName: 'staging', 
+    secretKey: 'asldkfjalskdjflaskdjf', 
 };
 
 environments.production = {
     port: 4000,
     envName: 'production',
+    secretKey: 'asldkfjalskdjflaskdjf', 
 };
 
 // determine which environment was passed at application startup

@@ -3,7 +3,7 @@ const url = require('url');
 const {StringDecoder} = require('string_decoder');
 const routes = require('../routes');
 const {notFoundHandler} = require('../handlers/routeHandlers/notFoundHandler');
-
+const {parseJSON} = require('../helpers/utilities');
 // handle request response
 const handler = {};
 
@@ -40,13 +40,18 @@ handler.handleReqRes = (req, res) => {
     // process all data on end
     req.on('end', ()=>{
         realData += decoder.end();
+        console.log(typeof realData);
+
+        requestProperties.body = parseJSON(realData);
+
         chosenHandler(requestProperties, (statusCode, payLoad)=>{
             statusCode = typeof statusCode === 'number' ? statusCode : '500';
             payLoad = typeof payLoad === 'object' ? payLoad : {};
             
             const payLoadString = JSON.stringify(payLoad);
-
+            
             // return the final response
+            res.setHeader('Content-Type', 'application/json');
             res.writeHead(statusCode);
             res.end(payLoadString);
         });
