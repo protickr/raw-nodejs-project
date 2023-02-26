@@ -4,7 +4,7 @@
   "description": "API status monitoring application built with raw nodejs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "SET NODE_ENV='staging' & nodemon index"
   },
   "repository": {
     "type": "git",

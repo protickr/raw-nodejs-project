@@ -43,7 +43,10 @@ handler.handleReqRes = (req, res) => {
         chosenHandler(requestProperties, (statusCode, payLoad)=>{
             statusCode = typeof statusCode === 'number' ? statusCode : '500';
             payLoad = typeof payLoad === 'object' ? payLoad : {};
+            
             const payLoadString = JSON.stringify(payLoad);
+
+            // return the final response
             res.writeHead(statusCode);
             res.end(payLoadString);
         });
