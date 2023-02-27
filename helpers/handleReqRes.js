@@ -40,10 +40,7 @@ handler.handleReqRes = (req, res) => {
     // process all data on end
     req.on('end', ()=>{
         realData += decoder.end();
-        console.log(typeof realData);
-
         requestProperties.body = parseJSON(realData);
-
         chosenHandler(requestProperties, (statusCode, payLoad)=>{
             statusCode = typeof statusCode === 'number' ? statusCode : '500';
             payLoad = typeof payLoad === 'object' ? payLoad : {};
