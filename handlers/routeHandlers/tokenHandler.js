@@ -133,6 +133,31 @@ handler._token.put = (requestProperties, callback) => {
 };
 
 // delete
-handler._token.delete = (requestProperties, callback) => {};
+handler._token.delete = (requestProperties, callback) => {
+  const phoneNumber = requestProperties.queryStrObj.phone;
+  const phone =
+    typeof phoneNumber === "string" && phoneNumber.trim().length === 11
+      ? phoneNumber
+      : null;
+
+  if (phone) {
+    // lookup the user
+    data.read("users", phone, (err1, userData) => {
+      if (!err1 && userData) {
+        data.delete("users", phone, (err2) => {
+          if (!err2) {
+            callback(200, { message: "user was deleted successfully!" });
+          } else {
+            callback(500, { error: "there was a server side error !" });
+          }
+        });
+      } else {
+        callback(500, { error: "there was a server side error !" });
+      }
+    });
+  } else {
+    callback(400, { error: "there was a problem in your request!" });
+  }
+};
 
 module.exports = handler;
