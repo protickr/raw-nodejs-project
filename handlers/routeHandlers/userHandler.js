@@ -14,7 +14,7 @@ handler.userHandler = (requestProperties, callback) => {
 };
 
 handler._users = {};
-
+// TODO: authentication
 // create
 handler._users.post = (requestProperties, callback) => {
   const requestBody = requestProperties.body;
@@ -101,65 +101,66 @@ handler._users.get = (requestProperties, callback) => {
 
 // update
 handler._users.put = (requestProperties, callback) => {
-    const requestBody = requestProperties.body;
-    const firstName =
-      typeof requestBody.firstName === "string" &&
-      requestBody.firstName.trim().length > 0
-        ? requestBody.firstName
-        : null;
-    const lastName =
-      typeof requestBody.lastName === "string" &&
-      requestBody.lastName.trim().length > 0
-        ? requestBody.lastName
-        : null;
-    const phone =
-      typeof requestBody.phone === "string" &&
-      requestBody.phone.trim().length === 11
-        ? requestBody.phone
-        : null;
-    const password =
-      typeof requestBody.password === "string" &&
-      requestBody.password.trim().length > 0
-        ? requestBody.password
-        : null;
+  const requestBody = requestProperties.body;
+  const firstName =
+    typeof requestBody.firstName === "string" &&
+    requestBody.firstName.trim().length > 0
+      ? requestBody.firstName
+      : null;
+  const lastName =
+    typeof requestBody.lastName === "string" &&
+    requestBody.lastName.trim().length > 0
+      ? requestBody.lastName
+      : null;
+  const phone =
+    typeof requestBody.phone === "string" &&
+    requestBody.phone.trim().length === 11
+      ? requestBody.phone
+      : null;
+  const password =
+    typeof requestBody.password === "string" &&
+    requestBody.password.trim().length > 0
+      ? requestBody.password
+      : null;
 
   if (phone) {
-    if(firstName || lastName || password){
-        // check if user exists with provided phone number 
-        data.read('users', phone, (err1, u)=>{
-            if(!err1 && u){
-                const user = {...parseJSON(u)};
-                if(firstName){
-                    user.firstName = firstName;
-                }
+    if (firstName || lastName || password) {
+      // check if user exists with provided phone number
+      data.read("users", phone, (err1, u) => {
+        if (!err1 && u) {
+          const user = { ...parseJSON(u) };
+          if (firstName) {
+            user.firstName = firstName;
+          }
 
-                if(lastName){
-                    user.lastName = lastName;
-                }
-                
-                if(password){
-                    user.password = hash(password);
-                }
+          if (lastName) {
+            user.lastName = lastName;
+          }
 
-                // store to database 
-                data.update('users', phone, user, (err2)=>{
-                    if(!err2){
-                        callback(200, {'message': 'user was updated successfully !'});
-                    }else{
-                        callback(500, {'message':"there was a problem in the server side !"});
-                    }
-                });
+          if (password) {
+            user.password = hash(password);
+          }
 
-            }else{
-                callback(400, {
-                    error: "You have a problem in your request !",
-                });
+          // store to database
+          data.update("users", phone, user, (err2) => {
+            if (!err2) {
+              callback(200, { message: "user was updated successfully !" });
+            } else {
+              callback(500, {
+                message: "there was a problem in the server side !",
+              });
             }
-        });
-    }else{
-        callback(400, {
+          });
+        } else {
+          callback(400, {
             error: "You have a problem in your request !",
-        });
+          });
+        }
+      });
+    } else {
+      callback(400, {
+        error: "You have a problem in your request !",
+      });
     }
   } else {
     callback(400, {
@@ -169,6 +170,31 @@ handler._users.put = (requestProperties, callback) => {
 };
 
 // delete
-handler._users.delete = (requestProperties, callback) => {};
+handler._users.delete = (requestProperties, callback) => {
+  const phoneNumber = requestProperties.queryStrObj.phone;
+  const phone =
+    typeof phoneNumber === "string" && phoneNumber.trim().length === 11
+      ? phoneNumber
+      : null;
+
+  if (phone) {
+    // lookup the user
+    data.read("users", phone, (err1, userData) => {
+      if (!err1 && userData) {
+        data.delete("users", phone, (err2) => {
+          if (!err2) {
+            callback(200, { message: "user was deleted successfully!" });
+          } else {
+            callback(500, { error: "there was a server side error !" });
+          }
+        });
+      } else {
+        callback(500, { error: "there was a server side error !" });
+      }
+    });
+  } else {
+    callback(400, { error: "there was a problem in your request!" });
+  }
+};
 
 module.exports = handler;
