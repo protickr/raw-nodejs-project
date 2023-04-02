@@ -1,7 +1,7 @@
 const environments = {};
 
 environments.staging = {
-    port: 3000,
+    port: 8000,
     envName: 'staging', 
     secretKey: 'asldkfjalskdjflaskdjf', 
 };

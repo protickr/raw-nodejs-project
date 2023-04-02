@@ -130,23 +130,24 @@ handler._token.put = (requestProperties, callback) => {
       error: "requested token was not found !",
     });
   }
-};
+}; 
 
 // delete
 handler._token.delete = (requestProperties, callback) => {
-  const phoneNumber = requestProperties.queryStrObj.phone;
-  const phone =
-    typeof phoneNumber === "string" && phoneNumber.trim().length === 11
-      ? phoneNumber
+  // check the token if valid
+  const idReq = requestProperties.queryStrObj.id;
+  const id =
+    typeof idReq === "string" && idReq.trim().length === 20
+      ? idReq
       : null;
 
-  if (phone) {
-    // lookup the user
-    data.read("users", phone, (err1, userData) => {
-      if (!err1 && userData) {
-        data.delete("users", phone, (err2) => {
+  if (id) {
+    // lookup the token by id
+    data.read("tokens", id, (err1, tokenData) => {
+      if (!err1 && tokenData) {
+        data.delete("tokens", id, (err2) => {
           if (!err2) {
-            callback(200, { message: "user was deleted successfully!" });
+            callback(200, { message: "token was deleted successfully!" });
           } else {
             callback(500, { error: "there was a server side error !" });
           }
