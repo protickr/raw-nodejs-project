@@ -8,12 +8,12 @@ const environment = require("./environments");
 const utilities = {};
 
 utilities.parseJSON = (jsonStr) => {
+  if(!jsonStr) return {};
+
   let output;
   try {
-    console.log(jsonStr);
     output = JSON.parse(jsonStr);
   } catch (err) {
-    console.log(err);
     output = {};
   }
 

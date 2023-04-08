@@ -4,12 +4,14 @@ environments.staging = {
     port: 8000,
     envName: 'staging', 
     secretKey: 'asldkfjalskdjflaskdjf', 
+    maxChecks: 5, 
 };
 
 environments.production = {
     port: 4000,
     envName: 'production',
     secretKey: 'asldkfjalskdjflaskdjf', 
+    maxChecks: 5,
 };
 
 // determine which environment was passed at application startup
