@@ -10,6 +10,7 @@ const utilities = {};
 utilities.parseJSON = (jsonStr) => {
   let output;
   try {
+    console.log(jsonStr);
     output = JSON.parse(jsonStr);
   } catch (err) {
     console.log(err);

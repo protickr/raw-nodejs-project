@@ -1,0 +1,61 @@
+// dependencies
+const data = require('../../lib/data');
+const { hash, parseJSON } = require('../../helpers/utilities');
+const { verify } = require('./tokenHandler')._token;
+
+const handler = {};
+
+handler.checkHandler = (requestProperties, callback) => {
+  const acceptedMethods = ['get', 'post', 'put', 'delete'];
+  if (acceptedMethods.indexOf(requestProperties.method) > -1) {
+    handler._check[requestProperties.method](requestProperties, callback);
+  } else {
+    callback(405);
+  }
+};
+
+handler._check = {};
+
+// create
+handler._check.post = (requestProperties, callback) => {
+  // validate inputs => protocol, domain, request method, success code, timeout in seconds
+  let protocol =
+    typeof requestProperties.body.protocol === 'string' &&
+    ['http', 'https'].indexOf(requestProperties.body.protocol) > -1
+      ? requestProperties.body.protocol
+      : false;
+
+  let url =
+    typeof requestProperties.body.url === 'string' &&
+    requestProperties.body.url.trim().length > 0
+      ? requestProperties.body.url
+      : false;
+
+  let method =
+    typeof requestProperties.body.method === 'string' &&
+    ['get', 'post', 'put', 'delete'].indexOf(
+      requestProperties.body.method.trim()
+    ) > -1
+      ? requestProperties.body.method
+      : false;
+
+    let 
+
+};
+
+// read
+handler._check.get = (requestProperties, callback) => {
+  
+};
+
+// update
+handler._check.put = (requestProperties, callback) => {
+ 
+};
+
+// delete
+handler._check.delete = (requestProperties, callback) => {
+  
+};
+
+module.exports = handler;
