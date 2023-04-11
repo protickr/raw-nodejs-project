@@ -3,6 +3,7 @@ const http = require('http');
 const { handleReqRes } = require('./helpers/handleReqRes');
 const environment = require('./helpers/environments');
 const data = require('./lib/data');
+const { sendTwilioSms } = require('./helpers/notifications');
 // app object - module scaffolding 
 const app = {};
 
@@ -25,6 +26,16 @@ const app = {};
 // delete file 
 // data.delete('test', 'newFile', (err)=>{
 //     console.log(err);
+// });
+
+
+// TODO: delete later 
+// sendTwilioSms('01787412542', 'This is a test message', (err)=>{
+//     if(!err){
+//         console.log('message sent successfully');
+//     }else{
+//         console.log(err);
+//     }
 // });
 
 // create server - function 
