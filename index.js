@@ -1,12 +1,30 @@
 // dependencies 
-const http = require('http');
-const { handleReqRes } = require('./helpers/handleReqRes');
-const environment = require('./helpers/environments');
-const data = require('./lib/data');
-const { sendTwilioSms } = require('./helpers/notifications');
+const server = require('./lib/server');
+const worker = require('./lib/worker');
+
 // app object - module scaffolding 
 const app = {};
 
+app.init = () => {
+    // start the server 
+    server.init();
+
+    // start background workers
+    worker.init();
+};
+
+app.init();
+
+module.exports = app;
+
+
+
+
+
+
+
+/* *********    Background tests' source codes  ************ */
+// const data = require('./lib/data');
 // testing file system 
 // create file
 // data.create('test', 'newFile', {'name': 'Bangladesh', 'language': 'Bangla'}, (err)=>{
@@ -29,27 +47,11 @@ const app = {};
 // });
 
 
-// TODO: delete later 
-// sendTwilioSms('01787412542', 'This is a test message', (err)=>{
+// const { sendTwilioSms } = require('./helpers/notifications');
+// sendTwilioSms('', 'This is a test message', (err)=>{
 //     if(!err){
 //         console.log('message sent successfully');
 //     }else{
 //         console.log(err);
 //     }
 // });
-
-// create server - function 
-app.createServer = ()=>{
-    const server = http.createServer(app.handleReqRes);
-
-    server.listen(environment.port, ()=>{
-        console.log(`Environment variable is, ${process.env.NODE_ENV}`);
-        console.log(`listening on port ${environment.port}`);
-    });
-};
-
-// request - response handler
-app.handleReqRes = handleReqRes;
-
-// start the server 
-app.createServer();

@@ -63,7 +63,7 @@ notifications.sendTwilioSms = function (phone, msg, callback) {
           // console.log(resJSON);
           callback(false);
         } else {
-          // console.log('\nTwilio send-message error xml: \n' + wholeRes + '\n');
+          console.log('\nTwilio send-message error xml: \n' + wholeRes + '\n');
           callback(`status code returned was ${status}`);
         }
       });
